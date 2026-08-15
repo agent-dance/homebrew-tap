@@ -57,6 +57,8 @@ def checksums(tag: str) -> dict[str, str]:
 
 def render(tag: str, sums: dict[str, str]) -> str:
     version = tag.removeprefix("v")
+    version_parts = tuple(int(part) for part in version.split("."))
+    command = "luban" if version_parts >= (0, 1, 1) else "luban-code"
 
     def platform_block(os_name: str, arch: str, key: str) -> str:
         asset = ASSETS[key]
@@ -82,7 +84,7 @@ def render(tag: str, sums: dict[str, str]) -> str:
   desc "Agentic coding CLI with repository tools and multiple model providers"
   homepage "https://github.com/{REPOSITORY}"
 
-  binary "luban-code"
+  binary "{command}"
 
   postflight do
     if OS.mac?
