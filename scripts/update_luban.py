@@ -70,13 +70,11 @@ def render(tag: str, sums: dict[str, str]) -> str:
 
   on_macos do
 {platform_block("macos", "arm", "darwin_arm64")}
-
 {platform_block("macos", "intel", "darwin_x86_64")}
   end
 
   on_linux do
 {platform_block("linux", "arm", "linux_arm64")}
-
 {platform_block("linux", "intel", "linux_x86_64")}
   end
 
@@ -85,6 +83,13 @@ def render(tag: str, sums: dict[str, str]) -> str:
   homepage "https://github.com/{REPOSITORY}"
 
   binary "luban-code"
+
+  postflight do
+    if OS.mac?
+      system_command "/usr/bin/xattr",
+                     args: ["-dr", "com.apple.quarantine", "#{{staged_path}}/luban-code"]
+    end
+  end
 end
 '''
 
