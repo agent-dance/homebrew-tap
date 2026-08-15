@@ -87,7 +87,7 @@ def render(tag: str, sums: dict[str, str]) -> str:
   postflight do
     if OS.mac?
       system_command "/usr/bin/xattr",
-                     args: ["-dr", "com.apple.quarantine", "#{{staged_path}}/luban-code"]
+                     args: ["-dr", "com.apple.quarantine", "#{{staged_path}}"]
     end
   end
 end
